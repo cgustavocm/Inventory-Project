@@ -1,0 +1,99 @@
+﻿@model Inventory_Project.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="page-blue py-4">
+    <div class="container">
+
+        <!-- Cuadro azul del título -->
+        <div class="dashboard-title-box mb-4 text-center">
+            <h2 class="text-white fw-bold m-0">Inventory Dashboard</h2>
+            <p class="text-white-50 m-0">Resumen general de tu inventario.</p>
+        </div>
+
+        <!-- Cuadro blanco con borde azul grueso -->
+        <div class="dashboard-wrapper">
+
+            <!-- CARDS -->
+            <div class="row text-center mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-uppercase">TOTAL ITEMS</h5>
+                            <h2>@Model.TotalItems</h2>
+                            <p class="text-muted">Cantidad de productos distintos registrados.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-uppercase">TOTAL QUANTITY</h5>
+                            <h2>@Model.TotalQuantity</h2>
+                            <p class="text-muted">Unidades totales en inventario.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-uppercase">TOTAL VALUE</h5>
+                            <h2>@Model.TotalValue.ToString("C2")</h2>
+                            <p class="text-muted">Valor económico estimado del inventario.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLA -->
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong>Resumen por categoría</strong>
+                    <a class="btn btn-primary btn-sm" asp-controller="Items" asp-action="Index">
+                        Ver lista de Items
+                    </a>
+                </div>
+
+                <div class="card-body p-0">
+                    <table class="table table-striped m-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Categoría</th>
+                                <th># Items</th>
+                                <th>Total Quantity</th>
+                                <th>Total Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.CategorySummary != null && Model.CategorySummary.Any())
+                            {
+                                foreach (var category in Model.CategorySummary)
+                                {
+                                    <tr>
+                                        <td>@category.CategoryName</td>
+                                        <td>@category.ItemCount</td>
+                                        <td>@category.TotalQuantity</td>
+                                        <td>@category.TotalValue.ToString("C2")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">
+                                        No hay datos de categorías aún.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

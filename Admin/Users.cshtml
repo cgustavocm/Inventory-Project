@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Inventory_Project.Models.UserRolesViewModel>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="container mt-4">
+    <h2>User Management</h2>
+    <p class="text-muted">Manage user roles for the inventory system.</p>
+
+    <table class="table table-striped align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+                <th style="width: 150px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Email</td>
+                    <td>
+                        @if (user.Roles != null && user.Roles.Any())
+                        {
+                            @string.Join(", ", user.Roles)
+                        }
+                        else
+                        {
+                            <span class="text-muted">No roles</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <a asp-controller="Admin"
+                           asp-action="EditUserRoles"
+                           asp-route-id="@user.UserId"
+                           class="btn btn-sm btn-primary">
+                            Edit Roles
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
